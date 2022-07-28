@@ -3,7 +3,7 @@ Lift is a generics-inflected Go package for lifting Go types
 
 # Why `lift`?
 
-Loosely (and imprecisely) inspired by function lifting, `lift` intends to provide some glue for lifting in Go.
+Loosely (and imprecisely) inspired by notions of function lifting, `lift` intends to provide some glue for lifting in Go.
 The central idea of `lift` is type enumeration symbols - runtime values which predicate branching and matching logic over types.
 
 This overlaps with a number of existing mechanisms in Go, from type assertions to `reflect`. `lift` is distinguished by being
@@ -73,10 +73,8 @@ In turn, this permits branching or matching on type flavors (even, or especially
 
 # Is it efficient?
 
-`lift` is not a performance hack. So far, performance hasn't been a priority; writing this package has been more about exploring the concepts. Examine performance more thoroughly is a future goal.
+`lift` is not a performance hack. So far, performance hasn't been a priority; writing this package has been more about exploring the concepts. Examining performance more thoroughly is a future goal.
 
-Glaringly, `lift.Map` is sluggish. In its defense, `lift.Map` is very general, and easy to write for. For some usages, a more performant alternative (e.g., a `switch` for fixed sets) is pretty tractable. Something other than a built-in `map` for the underlying implementation could be interesting to explore.
+Glaringly, `lift.Map` is sluggish. In its defense, `lift.Map` is very general, and easy to write for. For some usages, a more performant alternative (e.g., a `switch` for fixed sets) is tractable. Something other than a built-in `map` for the underlying implementation of `lift.Map` could be interesting to explore.
 
-That said, some preliminary benchmarking suggests that using `lift` as an alternative to equivalently elaborate schemes based on e.g. `interface{}` boxing is not a performance loss.
-
-Contrasting `lift` with `reflect`, `unsafe` etc. also seems worthwhile to look at.
+That said, some preliminary benchmarking suggests that using `lift` as an alternative to equivalently elaborate schemes based on e.g. `interface{}` boxing is not a performance loss. Contrasting `lift` with `reflect`, `unsafe` etc. also seems worthwhile to look at.
