@@ -49,16 +49,16 @@ func calculate(input string) {
 // CALCULATOR
 
 type calc struct {
-	state			lift.Map[edgeFunc]
-	acc, res		int
+	state    lift.Map[edgeFunc]
+	acc, res int
 	op
 }
 
-type edgeFunc = func(*calc, lift.Sym )
+type edgeFunc = func(*calc, lift.Sym)
 type op = func(*calc) error
 
 func newCalculator() *calc {
-	c := new( calc )
+	c := new(calc)
 	c.state = lift.NewMap[edgeFunc](
 		lift.Def[keyC](clear),
 		lift.Def[keyEq](eq),
@@ -100,12 +100,12 @@ func (c *calc) enterErr() {
 
 // EDGES
 
-func clear( c *calc, _ lift.Sym ){
+func clear(c *calc, _ lift.Sym) {
 	c.reset()
 	c.enterStart()
 }
 
-func eq(c* calc, _ lift.Sym ){
+func eq(c *calc, _ lift.Sym) {
 	if err := c.evaluate(); err != nil {
 		c.enterErr()
 		return
@@ -113,7 +113,7 @@ func eq(c* calc, _ lift.Sym ){
 	c.enterEvaluated()
 }
 
-func eval( c *calc, sym lift.Sym ){
+func eval(c *calc, sym lift.Sym) {
 	if err := c.evaluate(); err != nil {
 		c.enterErr()
 		return
@@ -121,19 +121,19 @@ func eval( c *calc, sym lift.Sym ){
 	store(c, sym)
 }
 
-func store( c *calc, sym lift.Sym){
+func store(c *calc, sym lift.Sym) {
 	c.op = lift.MustUnwrap[keyOp](sym)
 	c.enterStart()
 }
 
-func acc( c *calc, sym lift.Sym ){
+func acc(c *calc, sym lift.Sym) {
 	digit := lift.MustUnwrap[keyNum](sym)
 	c.acc *= 10
 	c.acc += digit
 	c.enterAccumulate()
 }
 
-func beginAcc( c *calc, sym lift.Sym ){
+func beginAcc(c *calc, sym lift.Sym) {
 	digit := lift.MustUnwrap[keyNum](sym)
 	if digit == 0 {
 		return
@@ -142,19 +142,19 @@ func beginAcc( c *calc, sym lift.Sym ){
 	acc(c, sym)
 }
 
-func resetAcc( c *calc, sym lift.Sym ){
+func resetAcc(c *calc, sym lift.Sym) {
 	c.reset()
 	beginAcc(c, sym)
 }
 
-func nop( c *calc, _ lift.Sym ) {}
+func nop(c *calc, _ lift.Sym) {}
 
 // METHODS
 
 func (c *calc) evaluate() error {
-	fmt.Print( "\n> " )
-	if err := c.op( c ); err != nil {
-		fmt.Println( err.Error() )
+	fmt.Print("\n> ")
+	if err := c.op(c); err != nil {
+		fmt.Println(err.Error())
 		return err
 	}
 	fmt.Printf("%8d\n", c.res)
@@ -163,7 +163,7 @@ func (c *calc) evaluate() error {
 
 func (c *calc) reset() {
 	c.acc, c.res = 0, 0
-	c.op = (*calc).add	
+	c.op = (*calc).add
 }
 
 func (c *calc) add() error {

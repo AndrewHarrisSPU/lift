@@ -7,20 +7,20 @@ import (
 )
 
 // Ensure that MustUnwrap, MustUnwrapAs generate panics
-func TestMustPanic( t *testing.T ) {
-	testMustPanic( t, func() {
-		lift.MustUnwrap[struct{}]( lift.Wrap(any(nil)))
+func TestMustPanic(t *testing.T) {
+	testMustPanic(t, func() {
+		lift.MustUnwrap[struct{}](lift.Wrap(any(nil)))
 	})
-	testMustPanic( t, func() {
-		lift.MustUnwrapAs[struct{}]( lift.Wrap(any(nil)))
+	testMustPanic(t, func() {
+		lift.MustUnwrapAs[struct{}](lift.Wrap(any(nil)))
 	})
 }
 
-func testMustPanic( t *testing.T, fn func() ) {
+func testMustPanic(t *testing.T, fn func()) {
 	t.Helper()
 	defer func() {
 		if r := recover(); r == nil {
-			t.Errorf( "missing panic" )
+			t.Errorf("missing panic")
 		}
 	}()
 
@@ -28,7 +28,7 @@ func testMustPanic( t *testing.T, fn func() ) {
 }
 
 // Quick testing for Map methods with no examples
-func TestMapExtra( t *testing.T ){
+func TestMapExtra(t *testing.T) {
 	m := lift.NewMap[struct{}]()
 
 	m.Store(
@@ -41,12 +41,12 @@ func TestMapExtra( t *testing.T ){
 	keys := m.Keys()
 	entries := m.Entries()
 
-	if len( keys ) != len( entries ) || len( keys ) != m.Len() {
-		t.Errorf( "Map method failure" )
+	if len(keys) != len(entries) || len(keys) != m.Len() {
+		t.Errorf("Map method failure")
 	}
 
-	m.Delete( m.Keys()... )
+	m.Delete(m.Keys()...)
 	if m.Len() != 0 {
-		t.Errorf( "Map method failure" )
+		t.Errorf("Map method failure")
 	}
 }

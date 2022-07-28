@@ -10,16 +10,16 @@ import (
 // If the lifted function is passed a [Sym] that doesn't match the desired type,
 // the return is zero valued.
 func Example_a_fizzbuzz() {
-	sayFizz := liftFizzBuzz( func(_ fizz) string {
+	sayFizz := liftFizzBuzz(func(_ fizz) string {
 		return "fizz"
 	})
-	sayBuzz := liftFizzBuzz( func(_ buzz) string {
+	sayBuzz := liftFizzBuzz(func(_ buzz) string {
 		return "buzz"
 	})
 
 	for i := 1; i < 31; i++ {
-		f, b := parseFizzBuzz( i )
-		if res := sayFizz( f ) + sayBuzz( b ); res != "" {
+		f, b := parseFizzBuzz(i)
+		if res := sayFizz(f) + sayBuzz(b); res != "" {
 			fmt.Println(i, res)
 		}
 	}
@@ -43,8 +43,8 @@ func Example_a_fizzbuzz() {
 type fizz struct{}
 type buzz struct{}
 
-func liftFizzBuzz[T any]( fn func(T) string ) func(lift.Sym) string {
-	return func( sym lift.Sym ) string {
+func liftFizzBuzz[T any](fn func(T) string) func(lift.Sym) string {
+	return func(sym lift.Sym) string {
 		if t, ok := lift.Unwrap[T](sym); ok {
 			return fn(t)
 		}
@@ -52,12 +52,12 @@ func liftFizzBuzz[T any]( fn func(T) string ) func(lift.Sym) string {
 	}
 }
 
-func parseFizzBuzz( i int ) (f, b lift.Sym ){
-	if i % 3 == 0 {
-		f = lift.Wrap( fizz{} )
+func parseFizzBuzz(i int) (f, b lift.Sym) {
+	if i%3 == 0 {
+		f = lift.Wrap(fizz{})
 	}
-	if i % 5 == 0 {
-		b = lift.Wrap( buzz{} )
+	if i%5 == 0 {
+		b = lift.Wrap(buzz{})
 	}
 	return
 }

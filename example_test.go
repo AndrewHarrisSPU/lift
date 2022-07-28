@@ -263,59 +263,59 @@ func ExampleLoadTypeOf() {
 func Example_e_emptyAnyNil() {
 	defer func() {
 		if r := recover(); r != nil {
-			fmt.Println( "oops!", r )
+			fmt.Println("oops!", r)
 		}
 	}()
 
 	items := lift.NewMap[string](
-		lift.Def[ struct{} ]( "the empty struct" ),
-		lift.Def[ lift.Empty ]( "the lift.Empty struct" ),
-		lift.Def[ any ]( "anything" ),
-		lift.Def[ lift.Sym ]( "the type enumeration of lift.Sym" ),
+		lift.Def[struct{}]("the empty struct"),
+		lift.Def[lift.Empty]("the lift.Empty struct"),
+		lift.Def[any]("anything"),
+		lift.Def[lift.Sym]("the type enumeration of lift.Sym"),
 	)
 
-	report := func( tag string, item string ){
-		fmt.Printf( "%-12s %s,\n", tag, item )
+	report := func(tag string, item string) {
+		fmt.Printf("%-12s %s,\n", tag, item)
 	}
 
 	// Three kinds of the empty struct{}
 	empty := struct{}{}
-	item, _ := lift.LoadTypeOf( items, empty )
-	report( "empty i", item )
+	item, _ := lift.LoadTypeOf(items, empty)
+	report("empty i", item)
 
-	item, _ = lift.Load[ lift.Empty ]( items )
-	report( "empty ii", item )
+	item, _ = lift.Load[lift.Empty](items)
+	report("empty ii", item)
 
 	type local struct{}
-	item, _ = lift.LoadTypeOf( items, local{} )
-	report( "empty iii", item )
+	item, _ = lift.LoadTypeOf(items, local{})
+	report("empty iii", item)
 
 	// Three kinds of any
-	item, _ = lift.Load[ any ]( items )
-	report( "any i", item )
+	item, _ = lift.Load[any](items)
+	report("any i", item)
 
-	item, _ = lift.LoadTypeOf( items, any("other thing"))
-	report( "any ii", item )
+	item, _ = lift.LoadTypeOf(items, any("other thing"))
+	report("any ii", item)
 
-	item, _ = lift.LoadSym( items, lift.Any )
-	report( "any iii", item )
+	item, _ = lift.LoadSym(items, lift.Any)
+	report("any iii", item)
 
 	// LoadTypeOf infers the type enumeration of lift.Sym from anything wrapped
-	item, _ = lift.LoadTypeOf( items, lift.Wrap(any(nil)))
-	report( "sym i", item )
+	item, _ = lift.LoadTypeOf(items, lift.Wrap(any(nil)))
+	report("sym i", item)
 
 	// Doesn't crash yet, as we're passing the type enumeration of lift.Sym
 	var NilSym lift.Sym
-	item, _ = lift.LoadTypeOf( items, NilSym )
-	report( "sym ii", item )
+	item, _ = lift.LoadTypeOf(items, NilSym)
+	report("sym ii", item)
 
 	// PANIC ENSUES - we've passed a raw nil
-	item, _ = lift.LoadSym( items, NilSym )
-	report( "nil i", item )
+	item, _ = lift.LoadSym(items, NilSym)
+	report("nil i", item)
 
 	// (unreached) PANIC ENSUES:
 	items.Store(
-		lift.DefSym( NilSym, "panic" ),
+		lift.DefSym(NilSym, "panic"),
 	)
 
 	// Output:

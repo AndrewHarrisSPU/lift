@@ -13,16 +13,16 @@ func Example_b_fish() {
 	type fish string
 
 	type octopus struct {
-		arms			int
-	}
-		
-	// "methods"
-	fishSlap := func( sym lift.Sym ) string {
-		f := lift.MustUnwrap[fish](sym)
-		return fmt.Sprintf("%sslap", f )
+		arms int
 	}
 
-	octopusSlap := func( sym lift.Sym ) ( slap string ){
+	// "methods"
+	fishSlap := func(sym lift.Sym) string {
+		f := lift.MustUnwrap[fish](sym)
+		return fmt.Sprintf("%sslap", f)
+	}
+
+	octopusSlap := func(sym lift.Sym) (slap string) {
 		o := lift.MustUnwrap[octopus](sym)
 		for i := 0; i < o.arms; i++ {
 			slap += "octoslap"
@@ -31,7 +31,7 @@ func Example_b_fish() {
 	}
 
 	// a dispatch map
-	marineLifeSlap := lift.NewMap[func(lift.Sym) string ](
+	marineLifeSlap := lift.NewMap[func(lift.Sym) string](
 		lift.Def[fish](fishSlap),
 		lift.Def[octopus](octopusSlap),
 	)
@@ -44,8 +44,8 @@ func Example_b_fish() {
 	}
 
 	for _, sym := range symbols {
-		slap, _ := lift.LoadSym( marineLifeSlap, sym )
-		fmt.Printf( "boom! %s!\n", slap(sym))
+		slap, _ := lift.LoadSym(marineLifeSlap, sym)
+		fmt.Printf("boom! %s!\n", slap(sym))
 	}
 	// Output:
 	// boom! troutslap!
