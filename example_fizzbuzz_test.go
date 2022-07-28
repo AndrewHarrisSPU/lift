@@ -7,9 +7,9 @@ import (
 )
 
 // This example demonstrates lifting a function.
-// If the lifted function is passed a Sym that doesn't match the desired type,
+// If the lifted function is passed a [Sym] that doesn't match the desired type,
 // the return is zero valued.
-func Example_1FizzBuzz() {
+func Example_a_fizzbuzz() {
 	sayFizz := liftFizzBuzz( func(_ fizz) string {
 		return "fizz"
 	})

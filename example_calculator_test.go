@@ -7,10 +7,10 @@ import (
 )
 
 // This example emulates a pocket calculator, modeled as a finite state machine.
-// Current state is maintained by a lift.Map of transition functions. Inputs are parsed to symbols.
-// The evaluaton loop takes one symbol, finds the associated edge in the calculator state, and
+// Current state is maintained by a [Map] of transition functions. Inputs are parsed to [Sym].
+// The evaluaton loop takes one [Sym], finds the associated edge in the calculator state, and
 // dispatches that function.
-func Example_4Calculator() {
+func Example_d_calculator() {
 	calculate("1+2*3=-4=C/=-5C-56=7+8=9=")
 	// 1+
 	// >        1

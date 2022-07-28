@@ -1,4 +1,4 @@
-// The conv package provides a Coverter, which indexes conversion functions.
+// The conv package provides a [Coverter], which indexes conversion functions.
 package conv
 
 import (
@@ -7,7 +7,7 @@ import (
 	"github.com/AndrewHarrisSPU/lift"
 )
 
-// A Converter indexes conversion functinos
+// A Converter indexes conversion functions
 type Converter struct {
 	defs			lift.Map[Entry]	
 }
@@ -23,7 +23,7 @@ func NewConverter(defs ...Entry) Converter {
 	return cv
 }
 
-// Def wraps a conversion function, yielding an Entry
+// Def wraps a conversion function, yielding an [Entry]
 func Def[SRC any, DST any]( convFunc func( SRC )( DST, error )) Entry {
 	return Entry( lift.Wrap(convFunc))
 }
@@ -52,7 +52,7 @@ func To[DST any, SRC any](cv Converter, src SRC) (dst DST, err error ){
 	return dst, fmt.Errorf( "Conversion not found: %T->%T", src, dst )
 }
 
-// Store defines a conversion in the Converter.
+// Store defines a conversion in the [Converter].
 func (cv Converter) Store(defs ...Entry) {
 	for _, def := range defs {
 		cv.defs.Store(
@@ -61,7 +61,7 @@ func (cv Converter) Store(defs ...Entry) {
 	}
 }
 
-// Delete removes a defined conversion from the Converter.
+// Delete removes a defined conversion from the [Converter].
 func (cv Converter) Delete(keys ...Entry) {
 	for _, key := range keys {
 		cv.defs.Delete( key )

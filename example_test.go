@@ -82,7 +82,7 @@ func ExampleUnwrap() {
 	// got a byte
 }
 
-// This works. A *strings.Builder is an io.Writer.
+// This works. A pointer to a [strings.Builder] is an [io.Writer].
 func ExampleUnwrapAs_interface() {
 	var b strings.Builder
 	sym := lift.Wrap(&b)
@@ -94,7 +94,7 @@ func ExampleUnwrapAs_interface() {
 	// unwrapped a Writer!
 }
 
-// This won't work. UnwrapAs performs type assertion, not conversion.
+// This won't work. [UnwrapAs] performs type assertion, not conversion.
 func ExampleUnwrapAs_noConversion() {
 	type bit bool
 	sym := lift.Wrap(bit(true))
@@ -258,9 +258,9 @@ func ExampleLoadTypeOf() {
 	// 0000007f
 }
 
-// Corner cases of Sym around empty-ish or any-ish values are reasonable.
-// Sym is an interface type, so the zero value of a Sym is nil-ish, and will cause panic.
-func Example_emptyAnyNil() {
+// Corner cases of [Sym] around empty-ish or any-ish values are reasonable.
+// [Sym] is an interface type, so the zero value of a [Sym] is nil-ish, and will cause panic.
+func Example_e_emptyAnyNil() {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println( "oops!", r )

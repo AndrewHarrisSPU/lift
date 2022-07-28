@@ -4,10 +4,10 @@
 // over the universe of types.
 //
 // The package intends to make production and consumption of type enumeration symbols narrow and ergonomic.
-// The most fundamental component of lift is the lift.Sym type, an exported type enumeraion symbol.
+// The most fundamental component of lift is the [Sym] type, an exported type enumeraion symbol.
 // See the README.md file for further exposition on internal mechanics.
 //
-// The lift.Map type is provided as an immediate and highly general application of type enumeration symbols,
+// The [Map] type is provided as an immediate and highly general application of type enumeration symbols,
 // using them as map keys.
 //
 // Function-flavored type enumerations (e.g. from func(T), distinct from T) can predicate
@@ -75,15 +75,15 @@ func (w wrapped[T]) exfiltrate() any {
 	return any(w.t)
 }
 
-// Wrap produces a Sym, like T or TypeOf. Unlike T or TypeOf,
+// Wrap produces a [Sym], like [T] or [TypeOf]. Unlike [T] or [TypeOf],
 // the result may be unwrapped to recover a wrapped value.
 func Wrap[T any](t T) Sym {
 	return wrapped[T]{t: t}
 }
 
 // Unwrap recovers a value of type T. It is successful when
-// the Sym to unwrap was produced by Wrap, and T precisely matches
-// the flavor of T inferred by Wrap.
+// the [Sym] to unwrap was produced by Wrap, and T precisely matches
+// the flavor of T inferred by [Wrap].
 func Unwrap[T any](sym Sym) (t T, ok bool) {
 	if w, ok := sym.(wrapped[T]); ok {
 		return w.t, true
@@ -98,7 +98,7 @@ func UnwrapAs[T any](sym Sym) (t T, ok bool) {
 	return
 }
 
-// MustUnwrap is a fail-fast version of Unwrap.
+// MustUnwrap is a fail-fast version of [Unwrap].
 // Unwrapping is expected to succed, and failure to unwrap panics.
 func MustUnwrap[T any](sym Sym) T {
 	if w, ok := sym.(wrapped[T]); ok {
@@ -107,7 +107,7 @@ func MustUnwrap[T any](sym Sym) T {
 	panic(fmt.Errorf("MustUnwrap: want %T, got %T", enum[T]{}, sym.enum()))
 }
 
-// MustUnwrapAs is a fail-fast version of UnwrapAs.
+// MustUnwrapAs is a fail-fast version of [UnwrapAs].
 // Unwrapping is expected to succed, and failure to unwrap panics.
 func MustUnwrapAs[T any](sym Sym) T {
 	if t, ok := sym.exfiltrate().(T); ok {
@@ -118,18 +118,18 @@ func MustUnwrapAs[T any](sym Sym) T {
 
 // MAP
 
-// Map defines associations between type enumerations and values of type V.
+// [Map] defines associations between type enumerations and values of type V.
 type Map[V any] struct {
 	defs map[Sym]V
 }
 
-// Entry encapsulates a definition of a single Map association.
+// Entry encapsulates a definition of a single [Map] association.
 type Entry[V any] struct {
 	k Sym
 	v V
 }
 
-// NewMap returns an initialized Map, with any provided definitions stored.
+// NewMap returns an initialized [Map], with any provided definitions stored.
 func NewMap[V any](defs ...Entry[V]) Map[V] {
 	m := Map[V]{
 		defs: make(map[Sym]V, len(defs)),
@@ -138,36 +138,36 @@ func NewMap[V any](defs ...Entry[V]) Map[V] {
 	return m
 }
 
-// Def constructs Map entries.
+// Def constructs [Map] entries.
 func Def[K any, V any](v V) Entry[V] {
 	return Entry[V]{enum[K]{}, v}
 }
 
-// DefSym constructs Map entries. Unlike Def, the key flavor is already lifted in the Sym.
+// DefSym constructs [Map] entries. Unlike [Def], the key flavor is already lifted in the [Sym].
 func DefSym[V any](sym Sym, v V) Entry[V] {
 	return Entry[V]{sym.enum(), v}
 }
 
-// Store stores a variadic list of entries in a Map.
+// Store stores a variadic list of entries in a [Map].
 func (m Map[V]) Store(defs ...Entry[V]) {
 	for _, def := range defs {
 		m.defs[def.k] = def.v
 	}
 }
 
-// Delete removes a variadic list of type enumerations from a Map.
+// Delete removes a variadic list of type enumerations from a [Map].
 func (m Map[V]) Delete(keys ...Sym) {
 	for _, key := range keys {
 		delete(m.defs, key.enum())
 	}
 }
 
-// Len returns the number of definitions present in a Map.
+// Len returns the number of definitions present in a [Map].
 func (m Map[V]) Len() int {
 	return len(m.defs)
 }
 
-// Keys collects the type enumeration keys defined for a Map.
+// Keys collects the type enumeration keys defined for a [Map].
 func (m Map[V]) Keys() []Sym {
 	keys := make([]Sym, len(m.defs))
 	i := 0
@@ -178,7 +178,7 @@ func (m Map[V]) Keys() []Sym {
 	return keys
 }
 
-// Entries collects definitions present in a Map.
+// Entries collects definitions present in a [Map].
 func (m Map[V]) Entries() []Entry[V] {
 	entries := make([]Entry[V], len(m.defs))
 	i := 0
@@ -189,19 +189,19 @@ func (m Map[V]) Entries() []Entry[V] {
 	return entries
 }
 
-// Load returns a value from a Map, if found.
+// Load returns a value from a [Map], if found.
 func Load[K any, V any](m Map[V]) (v V, ok bool) {
 	v, ok = m.defs[Sym(enum[K]{})]
 	return
 }
 
-// LoadTypeOf resembles Load, with type parameter K inferred from a second argument.
+// LoadTypeOf resembles [Load], with type parameter K inferred from a second argument.
 func LoadTypeOf[K any, V any](m Map[V], _ K) (v V, ok bool) {
 	v, ok = Load[K](m)
 	return
 }
 
-// LoadSym resembles Load, where the type enumeration key is lifted in the second argument.
+// LoadSym resembles [Load], where the type enumeration key is lifted in the second argument.
 func LoadSym[V any](m Map[V], sym Sym) (v V, ok bool) {
 	v, ok = m.defs[sym.enum()]
 	return

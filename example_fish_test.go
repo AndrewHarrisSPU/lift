@@ -6,9 +6,9 @@ import (
 	"github.com/AndrewHarrisSPU/lift"
 )
 
-// This example demonstrates a Map with func(Sym) values.
-// The Map is a dispatch table; a symbol may be looked up, and a related function returned.
-func Example_2Fish() {
+// This example demonstrates a [Map] with [Sym] values.
+// The [Map] is a dispatch table; a [Sym] may be looked up, and a related function returned.
+func Example_b_fish() {
 	// "recievers"
 	type fish string
 

@@ -6,8 +6,8 @@ import (
 	"github.com/AndrewHarrisSPU/lift"
 )
 
-// This example shows a switch-based dispatch table, yielding different logic than a lift.Map would.
-func Example_3EventHandlers() {
+// This example shows a switch-based dispatch table, yielding different logic than a [Map] would.
+func Example_c_eventhandlers() {
 	// brewing some dummy objects...
 	photo := &file{path: "tableflip.jif", data: "(╯°□°)╯︵ ┻━┻"}
 	home := &folder{path: "home", locked: false}

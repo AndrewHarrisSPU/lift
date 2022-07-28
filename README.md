@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/AndrewHarrisSPU/lift.svg)](https://pkg.go.dev/github.com/AndrewHarrisSPU/lift)
+
 # lift
 Lift is a generics-inflected Go package for lifting Go types
 
